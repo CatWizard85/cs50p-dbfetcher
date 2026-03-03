@@ -1,0 +1,155 @@
+<form id="myForm" method="post">
+
+    <div class="row">
+        <div class="form-group">
+            <label for="codice">Codice</label>
+            <input type="text" id="codice" name="codice" value="{{ form_data.get('codice') or '' }}">
+        </div>
+        <div class="form-group">
+            <label for="scelta">Scelta</label>
+            <input type="text" id="scelta" name="scelta" value="{{ form_data.get('scelta') or '' }}">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group">
+            <label for="spessore">Spessore</label>
+            <input type="text" id="spessore" name="spessore" value="{{ form_data.get('spessore') or '' }}">
+        </div>
+        <div class="form-group">
+            <label for="spessore_min">Spessore Min</label>
+            <input type="text" id="spessore_min" name="spessore_min" value="{{ form_data.get('spessore_min') or '' }}">
+        </div>
+        <div class="form-group">
+            <label for="spessore_max">Spessore Max</label>
+            <input type="text" id="spessore_max" name="spessore_max" value="{{ form_data.get('spessore_max') or '' }}">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group">
+            <label for="grammi">Grammi</label>
+            <input type="text" id="grammi" name="grammi" value="{{ form_data.get('grammi') or '' }}">
+        </div>
+        <div class="form-group">
+            <label for="grammi_min">Grammi Min</label>
+            <input type="text" id="grammi_min" name="grammi_min" value="{{ form_data.get('grammi_min') or '' }}">
+        </div>
+        <div class="form-group">
+            <label for="grammi_max">Grammi Max</label>
+            <input type="text" id="grammi_max" name="grammi_max" value="{{ form_data.get('grammi_max') or '' }}">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group">
+            <label for="lato_a">Lato A</label>
+            <input type="text" id="lato_a" name="lato_a" value="{{ form_data.get('lato_a') or '' }}">
+        </div>
+        <div class="form-group">
+            <label for="lato_a_min">Lato A Min</label>
+            <input type="text" id="lato_a_min" name="lato_a_min" value="{{ form_data.get('lato_a_min') or '' }}">
+        </div>
+        <div class="form-group">
+            <label for="lato_a_max">Lato A Max</label>
+            <input type="text" id="lato_a_max" name="lato_a_max" value="{{ form_data.get('lato_a_max') or '' }}">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group">
+            <label for="lato_b">Lato B</label>
+            <input type="text" id="lato_b" name="lato_b" value="{{ form_data.get('lato_b') or '' }}">
+        </div>
+        <div class="form-group">
+            <label for="lato_b_min">Lato B Min</label>
+            <input type="text" id="lato_b_min" name="lato_b_min" value="{{ form_data.get('lato_b_min') or '' }}">
+        </div>
+        <div class="form-group">
+            <label for="lato_b_max">Lato B Max</label>
+            <input type="text" id="lato_b_max" name="lato_b_max" value="{{ form_data.get('lato_b_max') or '' }}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="descrizione">Descrizione</label>
+        <textarea id="descrizione" name="descrizione" class="large-textarea">{{ form_data.get('descrizione') or '' }}</textarea>
+    </div>
+
+    <div><hr></div>
+
+    <div class="row">
+        <div class="form-group">
+            <label for="giacenza">Giacenza</label>
+            <input type="number" id="giacenza" name="giacenza" value="{{ form_data.get('giacenza') or '' }}">
+        </div>
+        <div class="form-group">
+            <label for="giacenza_min">Giacenza Min</label>
+            <input type="number" id="giacenza_min" name="giacenza_min" value="{{ form_data.get('giacenza_min') or '' }}">
+        </div>
+        <div class="form-group">
+            <label for="giacenza_max">Giacenza Max</label>
+            <input type="number" id="giacenza_max" name="giacenza_max" value="{{ form_data.get('giacenza_max') or '' }}">
+        </div>
+    </div>
+
+    <div><hr></div>
+
+    <div class="row">
+        <div class="form-group">
+            <label for="fsc_1">Categoria FSC 1</label>
+            <select id="fsc_1" name="fsc_1">
+                <option value="">-- Seleziona --</option>
+                <option value="P2" {% if form_data.get('fsc_1') == 'p2' %}selected{% endif %}>P2</option>
+                <option value="P3" {% if form_data.get('fsc_1') == 'p3' %}selected{% endif %}>P3</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="fsc_2">Categoria FSC 2</label>
+            <select id="fsc_2" name="fsc_2">
+                <option value="">-- Seleziona --</option>
+                <option value="MI" {% if form_data.get('fsc_2') == 'mi' %}selected{% endif %}>Misto</option>
+                <option value="RI" {% if form_data.get('fsc_2') == 'ri' %}selected{% endif %}>Riciclato</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="gest_lotti">Gestione lotti</label>
+            <select id="gest_lotti" name="gest_lotti">
+                <option value="">-- Seleziona --</option>
+                <option value="0" {% if form_data.get('gest_lotti') == 0 %}selected{% endif %}>No</option>
+                <option value="1" {% if form_data.get('gest_lotti') == 1 %}selected{% endif %}>Sì</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="ubicazione">Ubicazione</label>
+            <input type="text" id="ubicazione" name="ubicazione" value="{{ form_data.get('ubicazione') or '' }}">
+        </div>
+    </div>
+
+    <div><hr></div>
+
+    <div class="row">
+        <div class="form-group">
+            <label for="ordinamento">Ordinamento</label>
+            <select id="ordinamento" name="ordinamento">
+                <option value="codice" {% if form_data.get('ordinamento') == 'codice' %}selected{% endif %}>Codice Articolo</option>
+                <option value="spessore" {% if form_data.get('ordinamento') == 'spessore' %}selected{% endif %}>Spessore</option>
+                <option value="grammi" {% if form_data.get('ordinamento') == 'grammi' %}selected{% endif %}>Grammatura</option>
+            </select>
+        </div>
+    </div>
+
+    {% if request.args.get("popup") == "1" or request.form.get("popup") == "1" %}
+    <input type="hidden" name="popup" value="1">
+    {% endif %}
+
+    <div>
+        <button type="submit" formaction="/art_search">Cerca</button>
+        <button type="button" class="bigbutton" onclick="wipeForm()">Svuota Form</button>
+        {% if request.args.get("popup") != "1" and request.form.get("popup") != "1" %}
+        <button type="submit" formaction="/download?function=art_search">Scarica Excel</button>
+        <button type="submit" formaction="/download?function=art_search&is_lista=1">Scarica come Lista Formati</button>
+        {% endif %}
+    </div>
+
+</form>

@@ -1,0 +1,20 @@
+# Cache e file temporanei Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.swp
+*.swo
+
+# Ambiente virtuale
+venv/
+env/
+*.egg-info/
+
+# File di log
+*.log
+
+# File editor/IDE
+.vscode/
+.idea/
+*.iml

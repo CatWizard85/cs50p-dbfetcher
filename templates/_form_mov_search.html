@@ -1,0 +1,91 @@
+<form id="myForm" method="post">
+
+    <div class="row">
+        <div class="form-group">
+            <label for="data">Data</label>
+            <input type="date" id="data" name="data" value="{{ form_data.get('data') or '' }}">
+        </div>
+        <div class="form-group">
+            <label for="data_min">Data Min</label>
+            <input type="date" id="data_min" name="data_min" value="{{ form_data.get('data_min') or '' }}">
+        </div>
+        <div class="form-group">
+            <label for="data_max">Data Max</label>
+            <input type="date" id="data_max" name="data_max" value="{{ form_data.get('data_max') or '' }}">
+        </div>
+    </div>
+
+    <div>
+        <hr>
+    </div>
+
+    <div class="row">
+        <div class="form-group">
+            <div style="display: inline-flex; align-items: baseline; gap: 5px;">
+                <label for="codart">Articolo</label>
+                <button type="button" class="smallbutton" onclick="openPopup('/art_search?popup=1')">...</button>
+            </div>
+            <input type="text" id="codart" name="codart" value="{{ form_data.get('codart') or '' }}">
+        </div>
+        <div class="form-group">
+            <label for="cod_lotto">Lotto</label>
+            <input type="text" id="cod_lotto" name="cod_lotto" value="{{ form_data.get('cod_lotto') or '' }}">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group">
+            <div style="display: inline-flex; align-items: baseline; gap: 5px;">
+                <label for="cod_clie">Codice Cliente</label>
+                <button type="button" class="smallbutton" onclick="openPopup('/clie_search?popup=1')">...</button>
+            </div>
+            <input type="text" id="cod_clie" name="cod_clie" value="{{ form_data.get('cod_clie') or '' }}">
+        </div>
+        <div class="form-group">
+            <div style="display: inline-flex; align-items: baseline; gap: 5px;">
+                <label for="cod_forn">Codice Fornitore</label>
+                <button type="button" class="smallbutton" onclick="openPopup('/forn_search?popup=1')">...</button>
+            </div>
+            <input type="text" id="cod_forn" name="cod_forn" value="{{ form_data.get('cod_forn') or '' }}">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group">
+            <label for="tipo_mov">Carico/Scarico</label>
+            <select id="tipo_mov" name="tipo_mov">
+                <option value="">-- Seleziona --</option>
+                <option value="carico" {% if form_data.get('tipo_mov') == 'carico' %}selected{% endif %}>Carico</option>
+                <option value="scarico" {% if form_data.get('tipo_mov') == 'scarico' %}selected{% endif %}>Scarico</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="tipo_doc">Tipo Documento</label>
+            <select id="tipo_doc" name="tipo_doc">
+                <option value="">-- Seleziona --</option>
+                <option value="giac_iniziale" {% if form_data.get('tipo_doc') == 'giac_iniziale' %}selected{% endif %}>Giacenza Iniziale</option>
+                <option value="ddt_carico" {% if form_data.get('tipo_doc') == 'ddt_carico' %}selected{% endif %}>DDT Carico</option>
+                <option value="ddt_scarico" {% if form_data.get('tipo_doc') == 'ddt_scarico' %}selected{% endif %}>DDT Scarico</option>
+                <option value="int_carico" {% if form_data.get('tipo_doc') == 'int_carico' %}selected{% endif %}>Carico Interno</option>
+                <option value="int_scarico" {% if form_data.get('tipo_doc') == 'int_scarico' %}selected{% endif %}>Scarico Interno</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="num_doc">Numero Documento</label>
+            <input type="number" id="num_doc" name="num_doc" value="{{ form_data.get('num_doc') or '' }}">
+        </div>
+        <div class="form-group">
+            <label for="record">Record Gestionale</label>
+            <input type="number" id="record" name="record" value="{{ form_data.get('record') or '' }}">
+        </div>
+    </div>
+
+    <div>
+        <button type="submit" formaction="/mov_search">Cerca</button>
+        <button type="button" class="bigbutton" onclick="wipeForm()">Svuota Form</button>
+        {% if request.args.get("popup") != "1" and request.form.get("popup") != "1" %}
+        <button type="submit" formaction="/download?function=mov_search">Scarica Excel</button>
+        <button type="submit" formaction="/download_entrate_uscite">Scarica Entrate/Uscite</button>
+        {% endif %}
+    </div>
+</form>

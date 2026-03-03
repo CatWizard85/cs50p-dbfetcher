@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Ricerca Lotti
+{% endblock %}
+
+
+{% block main %}
+
+<form id="myForm" method="post">
+
+    <div class="row">
+        <div class="form-group">
+            <div style="display: inline-flex; align-items: baseline; gap: 5px;">
+                <label for="codart">Articolo</label>
+                <button type="button" class="smallbutton" onclick="openPopup('/art_search?popup=1')">...</button>
+            </div>
+            <input type="text" id="codart" name="codart" value="{{ form_data.get('codart') or '' }}">
+        </div>
+        <div class="form-group">
+            <label for="cod_lotto">Lotto</label>
+            <input type="text" id="cod_lotto" name="cod_lotto" value="{{ form_data.get('cod_lotto') or '' }}">
+        </div>
+    </div>
+
+    <div>
+        <button type="submit" formaction="/lot_search">Cerca</button>
+        <button type="button" class="bigbutton" onclick="wipeForm()">Svuota Form</button>
+        {% if request.args.get("popup") != "1" and request.form.get("popup") != "1" %}
+        <button type="submit" formaction="/download?function=lot_search">Scarica Excel</button>
+        {% endif %}
+    </div>
+</form>
+
+{% endblock %}

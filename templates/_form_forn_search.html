@@ -1,0 +1,25 @@
+<form id="myForm" method="post">
+
+    <div class="row">
+        <div class="form-group">
+            <label for="cod_forn">Codice</label>
+            <input type="text" id="cod_forn" name="cod_forn" value="{{ form_data.get('cod_forn') or '' }}">
+        </div>
+        <div class="form-group">
+            <label for="nome">Ragione Sociale</label>
+            <input type="text" id="nome" name="nome" value="{{ form_data.get('nome') or '' }}">
+        </div>
+    </div>
+
+    {% if request.args.get("popup") == "1" or request.form.get("popup") == "1" %}
+    <input type="hidden" name="popup" value="1">
+    {% endif %}
+
+    <div>
+        <button type="submit" formaction="/forn_search">Cerca</button>
+        <button type="button" class="bigbutton" onclick="wipeForm()">Svuota Form</button>
+        {% if request.args.get("popup") != "1" and request.form.get("popup") != "1" %}
+        <button type="submit" formaction="/download?function=forn_search">Scarica Excel</button>
+        {% endif %}
+    </div>
+</form>

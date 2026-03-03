@@ -1,0 +1,47 @@
+{% extends "popup_layout.html" %}
+
+{% block main %}
+
+<!-- Sezione form -->
+<section class="container" style="background-color: #e6f2ff;">
+    <h2>Ricerca Fornitore Contestuale</h2>
+    {% include "_form_forn_search.html" %}
+</section>
+
+<!-- Sezione tabella risultati -->
+{% if results is defined %}
+    {% if results and results|length > 0 %}
+    <section class="container">
+        <table class="my-table">
+            <thead>
+                <tr>
+                    <th>Codice Fornitore</th>
+                    <th>Ragione Sociale</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for row in results %}
+                    <tr>
+                        <td>
+                            {{ row[HEADERS_MAP.get("cod_forn")] }}
+                        </td>
+                        <td>
+                            {{ row[HEADERS_MAP.get("nome")] }}
+                            <!-- WARNING! Here i'm using single quotes outside and double quotes inside to avoid a conflict with |tojson!! -->
+                            <button type="button" class="smallbutton" style="margin-left: 10px;" onclick='selectValue("cod_forn", {{ row[HEADERS_MAP.get("cod_forn")]|tojson }})'>Seleziona</button>
+                        </td>
+
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+    {% else %}
+        <section class="table-container">
+            NESSUN RISULTATO
+        </section>
+    {% endif %}
+{% endif %}
+
+{% endblock %}

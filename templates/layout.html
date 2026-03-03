@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <link href="/static/styles.css" rel="stylesheet">
+        <title>DBFetcher</title>
+
+        <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+
+    </head>
+
+    <body>
+
+        <header>DBFetcher</header>
+
+        <nav>
+            <ul class="menu-bar">
+                <li><a href="./art_search">Ricerca Articoli</a></li>
+                <li><a href="./lot_search">Ricerca Lotti</a></li>
+                <li><a href="./mov_search">Ricerca Movimenti</a></li>
+                <li><a href="./clie_search">Ricerca Clienti</a></li>
+                <li><a href="./forn_search">Ricerca Fornitori</a></li>
+            </ul>
+        </nav>
+
+        <main>
+            <!-- Sezione form -->
+            <section class="container">
+                <h2>{% block title %}{% endblock %}</h2>
+                {% block main %}{% endblock %}
+            </section>
+
+            <!-- Sezione tabella risultati -->
+            {% if results is defined %}
+                {% if results and results|length > 0 %}
+                <section class="table-container">
+                    <table class="my-table">
+                        <thead>
+                            <tr>
+                                {% for key in results[0].keys() %}
+                                    <th>{{ key }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for row in results %}
+                                <tr>
+                                    {% for key, value in row.items() %}
+                                        {% if key == 'Descrizione' %}
+                                            <td class="truncate">{{ value }}</td>
+                                        {% elif value is number %}
+                                            <td>{{ value|int if value == value|int else value|round(3) }}</td>
+                                        {% else %}
+                                            <td>{{ value or '' }}</td>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </section>
+                {% else %}
+                    <section class="table-container">
+                        NESSUN RISULTATO
+                    </section>
+                {% endif %}
+            {% endif %}
+        </main>
+    </body>
+</html>

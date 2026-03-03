@@ -1,0 +1,64 @@
+007 4 400 81 71
+articolo che nel nuovo DB risulta a 0 invece ha una giacenza di 385 kg, derivata da giacenza iniziale, num movimento 1!!
+
+'X1018    1 790 72   102  '
+
+I DUE MOVIMENTI CHE ESISTONO NEL DBF MA NON NEL MIO DB:
+record 4
+codart: KTL      1 225 71   101
+
+record 343
+codart: INTEF    5 350
+
+SONO ARTICOLI INESISTENTI IN ANAART MA CHE HANNO UN MOVIMENTO!!
+PER QUELLO NON LI IMPORTA DICENDO CHE C'E IL COSTRAINT FOREIGN KEY DEL CRISTO!
+
+INSERT INTO movimenti (record, tipo_mov, data, tipo_doc, num_doc, cod_forn, codart, descrizione, um, quantita, prezzo) VALUES
+(1, 'carico', '2025-01-08', 'ddt_carico', 1, 'F9', 'APR      1 250 72   102  ', 'CARTONCINO GC1 APRIL BOARD 1a SCELTA GR 250', 'KG', 2000, 1.00),
+(1, 'carico', '2025-01-08', 'ddt_carico', 1, 'F9', 'APR      1 295 72   102  ', 'CARTONCINO GC1 APRIL BOARD 1a SCELTA GR 295', 'KG', 3000, 1.00),
+(1, 'carico', '2025-01-08', 'ddt_carico', 1, 'F9', 'APR      1 350 72   102  ', 'CARTONCINO GC1 APRIL BOARD 1a SCELTA GR 350', 'KG', 2000, 1.00),
+(2, 'carico', '2025-02-03', 'ddt_carico', 2, 'F1', '918  2.001 131071   101  ', 'CARTONE GRIGIO GRIGIO ACC. EXTRA LISCIO 2,00 MM', 'KG', 3600, 0.75),
+(2, 'carico', '2025-02-03', 'ddt_carico', 2, 'F1', '918  3.001 193071   101  ', 'CARTONE GRIGIO GRIGIO ACC. EXTRA LISCIO 3,00 MM', 'KG', 2400, 0.75),
+(4, 'carico', '2025-02-29', 'ddt_carico', 3, 'F3', 'VEG  2.501 125072   103  ', 'CARTONE VEGETALE PASTALEGNO 2,50 MM', 'KG', 2000, 2.10),
+(4, 'carico', '2025-02-29', 'ddt_carico', 3, 'F3', 'VEG  4.001 200072   103  ', 'CARTONE VEGETALE PASTALEGNO 4,00 MM', 'KG', 1600, 2.10),
+(7, 'carico', '2025-03-11', 'ddt_carico', 4, 'F5', 'INTEF    5 300 80   120  ', 'CARTONCINO PER INTERFALDA/SEPARATORI GR 300', 'KG', 2540, 0.50),
+(8, 'carico', '2025-03-14', 'ddt_carico', 5, 'F8', 'ZHT      1 380 72   102  ', 'CARTONCINO GC1 ZENITH 1a SCELTA GR 380', 'KG', 5000, 0.98)
+
+
+INSERT INTO movimenti (record, tipo_mov, data, tipo_doc, num_doc, cod_clie, codart, descrizione, um, quantita, prezzo) VALUES
+(3, 'scarico', '2025-02-19', 'ddt_scarico', 1, '1', 'APR      1 295 72   102  ', 'CARTONCINO GC1 APRIL BOARD 1a SCELTA GR 295', 'KG', 800, 1.25),
+(3, 'scarico', '2025-02-19', 'ddt_scarico', 1, '1', 'APR      1 350 72   102  ', 'CARTONCINO GC1 APRIL BOARD 1a SCELTA GR 350', 'KG', 400, 1.25),
+(5, 'scarico', '2025-03-02', 'ddt_scarico', 2, '4', 'VEG  4.001 200072   103  ', 'CARTONE VEGETALE PASTALEGNO 4,00 MM', 'KG', 420, 3.50),
+(6, 'scarico', '2025-03-05', 'ddt_scarico', 3, '9', '918  2.001 131071   101  ', 'CARTONE GRIGIO GRIGIO ACC. EXTRA LISCIO 2,00 MM', 'KG', 100, 1.20),
+(9, 'scarico', '2025-03-15', 'ddt_scarico', 4, '5', '918  3.001 193071   101  ', 'CARTONE GRIGIO GRIGIO ACC. EXTRA LISCIO 3,00 MM', 'KG', 605, 1.00),
+(10, 'scarico', '2025-03-16', 'ddt_scarico', 5, '10', 'INTEF    5 300 80   120  ', 'CARTONCINO PER INTERFALDA/SEPARATORI GR 300', 'KG', 325, 1.10)
+
+
+QUERY PER BILANCIO FSC:
+
+SELECT
+        movimenti.record,
+        movimenti.data,
+        movimenti.tipo_doc,
+        movimenti.num_doc,
+        movimenti.cod_clie,
+        clienti.nome AS nome_clie,
+        movimenti.cod_forn,
+        fornitori.nome AS nome_forn,
+        movimenti.codart,
+        movimenti.cod_lotto,
+        movimenti.descrizione,
+        articoli.fsc_1,
+        articoli.fsc_2,
+        articoli.gest_lotti,
+        movimenti.um,
+        movimenti.quantita,
+        movimenti.prezzo
+    FROM movimenti
+    LEFT JOIN clienti ON movimenti.cod_clie = clienti.cod_clie
+    LEFT JOIN fornitori ON movimenti.cod_forn = fornitori.cod_forn
+    LEFT JOIN articoli ON movimenti.codart = articoli.codart
+    WHERE articoli.gest_lotti = 1
+    AND movimenti.data BETWEEN '2025-01-01' AND '2025-10-31'
+
+    WHERE articoli.fsc_1 = 'MI'
