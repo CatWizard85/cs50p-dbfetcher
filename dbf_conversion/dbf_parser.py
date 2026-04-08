@@ -1,6 +1,7 @@
 import sqlite3
 import time
 import sys
+import os
 from dbfread import DBF
 from .cliente import Cliente
 from .fornitore import Fornitore
@@ -12,6 +13,15 @@ from config import DB_PATH, DBF_DIR
 
 """ LISTS AND DICTIONARIES TO MAP DATA """
 
+
+REQUIRED_FILES = [
+    "ANAART.dbf",
+    "MOVMAG.dbf",
+    "SOTT.dbf",
+    "TAGCOL.dbf",
+    "IMPEGNI.DBF",
+    "PROMAG.DBF"
+]
 
 art_col_map = {
     "AA_CODART" : "codart",
@@ -176,6 +186,27 @@ def lotto_parser(conn, giac_dict, dbf_path=DBF_DIR / "TAGCOL.dbf", col_map=lotto
 """ HELPER FUNCTIONS """
 
 
+# Function that verifies the existence of the required DBF files in the /dbf_conversion directory
+def check_dbf_existence():
+    missing_files = []
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    print("Ricerca dei file DBF nella directory:", script_dir)
+
+    for file_name in REQUIRED_FILES:
+        file_path = os.path.join(script_dir, file_name)
+        if not os.path.isfile(file_path):
+            missing_files.append(file_name)
+        
+    if missing_files:
+        print(f"ATTENZIONE: i seguenti file non sono stati trovati nella directory corrente:")
+        for file in missing_files:
+            print(f"  - {file}")
+        print("Parsing dei DBF interrotto")
+        sys.exit(1)    
+    else:
+        print("I file DBF necessari sono presenti nella directory corrente")
+
+
 # Generator function to filter the useful columns from a table returned by dbfread
 def filter_columns(table, columns):
     if isinstance(columns, dict):
@@ -295,6 +326,8 @@ def object_to_table(conn: sqlite3.Connection, obj: object, table_name: str):
 
 
 def main():
+    check_dbf_existence()
+
     start = time.time()
     sys.stdout = open(DBF_DIR / "log.txt", "w", encoding="utf-8")
 
